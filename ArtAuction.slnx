@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/Backend/" />
+  <Folder Name="/Backend/src/">
+    <Project Path="Backend/src/ArtAuction.API/ArtAuction.API.csproj" />
+    <Project Path="Backend/src/ArtAuction.Application/ArtAuction.Application.csproj" />
+    <Project Path="Backend/src/ArtAuction.Infrastructure/ArtAuction.Infrastructure.csproj" />
+  </Folder>
+</Solution>

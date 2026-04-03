@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "/9wDtAwnNBM=",
+  "success": true,
+  "projectFilePath": "A:\\Collage File\\3rd\\2nd Term\\Internet Application\\Project\\Backend\\src\\ArtAuction.API\\ArtAuction.API.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\dell\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.4\\microsoft.aspnetcore.openapi.10.0.4.nupkg.sha512",
+    "C:\\Users\\dell\\.nuget\\packages\\microsoft.openapi\\2.0.0\\microsoft.openapi.2.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
