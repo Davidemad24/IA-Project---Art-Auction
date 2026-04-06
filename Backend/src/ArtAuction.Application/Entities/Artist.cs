@@ -1,0 +1,17 @@
+﻿namespace ArtAuction.Application.Entities;
+
+public class Artist
+{
+    // Attributes
+    public int Id { get; set; }
+    public Guid UserId { get; set; } 
+    public string City { get; set; } 
+    public string Country { get; set; } 
+    public string PhoneNumber { get; set; }
+    public DateTime HireDate { get; set; }
+    public int AdminId { get; set; }
+    
+    // Relationships
+    public Admin Admin { get; set; }
+    public ICollection<ArtworkPost> ArtworkPosts { get; set; }
+}
