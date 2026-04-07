@@ -4,7 +4,7 @@ public class Admin
 {
     // Attributes
     public int Id { get; set; }
-    public Guid UserId { get; set; } 
+    public int UserId { get; set; } 
     
     // Relationships
     public ICollection<Artist> Artist { get; set; }
