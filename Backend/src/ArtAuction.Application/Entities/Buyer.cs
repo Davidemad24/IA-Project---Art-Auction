@@ -1,10 +1,10 @@
-﻿namespace ArtAuction.Application.Entities;
+﻿using ArtAuction.Infrastructure.Identities;
 
-public class Buyer
+namespace ArtAuction.Application.Entities;
+
+public class Buyer : ApplicationUser
 {
     // Attributes
-    public int Id { get; set; }
-    public int UserId { get; set; } 
     public string City { get; set; } 
     public string Country { get; set; } 
     public string PhoneNumber { get; set; } 

@@ -1,13 +1,10 @@
-﻿namespace ArtAuction.Application.Entities;
+﻿using ArtAuction.Infrastructure.Identities;
 
-public class Admin
+namespace ArtAuction.Application.Entities;
+
+public class Admin : ApplicationUser
 {
-    // Attributes
-    public int Id { get; set; }
-    public int UserId { get; set; } 
-    
     // Relationships
     public ICollection<Artist> Artist { get; set; }
     public ICollection<ArtworkPost> ArtworkPosts { get; set; }
-    
 }

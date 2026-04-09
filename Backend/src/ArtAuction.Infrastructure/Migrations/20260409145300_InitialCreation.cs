@@ -6,24 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ArtAuction.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialCreation : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Admins",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "100001, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Admins", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -45,6 +32,14 @@ namespace ArtAuction.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    UserType = table.Column<string>(type: "nvarchar(21)", maxLength: 21, nullable: false),
+                    Artist_City = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Artist_Country = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    HireDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    AdminId = table.Column<int>(type: "int", nullable: true),
+                    City = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Country = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -53,7 +48,7 @@ namespace ArtAuction.Infrastructure.Migrations
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
                     PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
@@ -63,23 +58,12 @@ namespace ArtAuction.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Buyers",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1001, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    City = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Country = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Buyers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_AspNetUsers_AdminId",
+                        column: x => x.AdminId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -106,30 +90,6 @@ namespace ArtAuction.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tags", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Artists",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    City = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Country = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
-                    HireDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    AdminId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Artists", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Artists_Admins_AdminId",
-                        column: x => x.AdminId,
-                        principalTable: "Admins",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -246,8 +206,8 @@ namespace ArtAuction.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
-                    InitialPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    BuyNewPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    InitialPrice = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    BuyNewPrice = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Image = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
@@ -259,15 +219,15 @@ namespace ArtAuction.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_ArtworkPosts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ArtworkPosts_Admins_AdminId",
+                        name: "FK_ArtworkPosts_AspNetUsers_AdminId",
                         column: x => x.AdminId,
-                        principalTable: "Admins",
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ArtworkPosts_Artists_ArtistId",
+                        name: "FK_ArtworkPosts_AspNetUsers_ArtistId",
                         column: x => x.ArtistId,
-                        principalTable: "Artists",
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -284,7 +244,7 @@ namespace ArtAuction.Infrastructure.Migrations
                 {
                     BuyerId = table.Column<int>(type: "int", nullable: false),
                     ArtworkPostId = table.Column<int>(type: "int", nullable: false),
-                    BuyerPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    BuyerPrice = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -296,9 +256,9 @@ namespace ArtAuction.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_PostBids_Buyers_BuyerId",
+                        name: "FK_PostBids_AspNetUsers_BuyerId",
                         column: x => x.BuyerId,
-                        principalTable: "Buyers",
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -309,7 +269,7 @@ namespace ArtAuction.Infrastructure.Migrations
                 {
                     BuyerId = table.Column<int>(type: "int", nullable: false),
                     ArtworkPostId = table.Column<int>(type: "int", nullable: false),
-                    FinalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    FinalPrice = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     IsPaid = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -322,9 +282,9 @@ namespace ArtAuction.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_PostSolds_Buyers_BuyerId",
+                        name: "FK_PostSolds_AspNetUsers_BuyerId",
                         column: x => x.BuyerId,
-                        principalTable: "Buyers",
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -370,17 +330,12 @@ namespace ArtAuction.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_WatchLists_Buyers_BuyerId",
+                        name: "FK_WatchLists_AspNetUsers_BuyerId",
                         column: x => x.BuyerId,
-                        principalTable: "Buyers",
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Artists_AdminId",
-                table: "Artists",
-                column: "AdminId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ArtworkPosts_AdminId",
@@ -428,6 +383,11 @@ namespace ArtAuction.Infrastructure.Migrations
                 name: "EmailIndex",
                 table: "AspNetUsers",
                 column: "NormalizedEmail");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_AdminId",
+                table: "AspNetUsers",
+                column: "AdminId");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
@@ -491,25 +451,16 @@ namespace ArtAuction.Infrastructure.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "Tags");
 
             migrationBuilder.DropTable(
                 name: "ArtworkPosts");
 
             migrationBuilder.DropTable(
-                name: "Buyers");
-
-            migrationBuilder.DropTable(
-                name: "Artists");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Categories");
-
-            migrationBuilder.DropTable(
-                name: "Admins");
         }
     }
 }
