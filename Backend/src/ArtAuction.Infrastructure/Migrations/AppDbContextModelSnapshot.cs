@@ -17,12 +17,12 @@ namespace ArtAuction.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.5")
+                .HasAnnotation("ProductVersion", "8.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ArtAuction.Application.Entities.ArtworkPost", b =>
+            modelBuilder.Entity("ArtAuction.Application.Entities.Admin", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -30,162 +30,18 @@ namespace ArtAuction.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AdminId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
-
-                    b.Property<int>("ArtistId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("BuyNewPrice")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<byte[]>("Image")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<decimal>("InitialPrice")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AdminId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
-                    b.HasIndex("ArtistId");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("ArtworkPosts", (string)null);
+                    b.ToTable("Admins");
                 });
 
-            modelBuilder.Entity("ArtAuction.Application.Entities.Category", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Categories", (string)null);
-                });
-
-            modelBuilder.Entity("ArtAuction.Application.Entities.PostBid", b =>
-                {
-                    b.Property<int>("BuyerId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ArtworkPostId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("BuyerPrice")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("BuyerId", "ArtworkPostId");
-
-                    b.HasIndex("ArtworkPostId");
-
-                    b.ToTable("PostBids", (string)null);
-                });
-
-            modelBuilder.Entity("ArtAuction.Application.Entities.PostSold", b =>
-                {
-                    b.Property<int>("BuyerId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ArtworkPostId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("FinalPrice")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<bool>("IsPaid")
-                        .HasColumnType("bit");
-
-                    b.HasKey("BuyerId", "ArtworkPostId");
-
-                    b.HasIndex("ArtworkPostId");
-
-                    b.ToTable("PostSolds", (string)null);
-                });
-
-            modelBuilder.Entity("ArtAuction.Application.Entities.PostTag", b =>
-                {
-                    b.Property<int>("ArtworkPostId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TagId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ArtworkPostId", "TagId");
-
-                    b.HasIndex("TagId");
-
-                    b.ToTable("PostTags", (string)null);
-                });
-
-            modelBuilder.Entity("ArtAuction.Application.Entities.Tag", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Tags", (string)null);
-                });
-
-            modelBuilder.Entity("ArtAuction.Application.Entities.WatchList", b =>
-                {
-                    b.Property<int>("ArtworkPostId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BuyerId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ArtworkPostId", "BuyerId");
-
-                    b.HasIndex("BuyerId");
-
-                    b.ToTable("WatchLists", (string)null);
-                });
-
-            modelBuilder.Entity("ArtAuction.Infrastructure.Identities.ApplicationUser", b =>
+            modelBuilder.Entity("ArtAuction.Application.Entities.ApplicationUser", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -200,12 +56,23 @@ namespace ArtAuction.Infrastructure.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("LastLoginAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -225,12 +92,13 @@ namespace ArtAuction.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(13)
-                        .HasColumnType("nvarchar(13)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("ProfilePictureUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -241,11 +109,6 @@ namespace ArtAuction.Infrastructure.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("UserType")
-                        .IsRequired()
-                        .HasMaxLength(21)
-                        .HasColumnType("nvarchar(21)");
 
                     b.HasKey("Id");
 
@@ -258,10 +121,248 @@ namespace ArtAuction.Infrastructure.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
 
-                    b.HasDiscriminator<string>("UserType").HasValue("ApplicationUser");
+            modelBuilder.Entity("ArtAuction.Application.Entities.Artist", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.UseTphMappingStrategy();
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AdminId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ApprovedByAdminId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("HireDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsApproved")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("nvarchar(13)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AdminId");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Artists");
+                });
+
+            modelBuilder.Entity("ArtAuction.Application.Entities.ArtworkPost", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AdminId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ArtistId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("BuyNewPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<byte[]>("Image")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<decimal>("InitialPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AdminId");
+
+                    b.HasIndex("ArtistId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("ArtworkPosts");
+                });
+
+            modelBuilder.Entity("ArtAuction.Application.Entities.Buyer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("nvarchar(13)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Buyers");
+                });
+
+            modelBuilder.Entity("ArtAuction.Application.Entities.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("ArtAuction.Application.Entities.PostBid", b =>
+                {
+                    b.Property<int>("BuyerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ArtworkPostId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("BuyerPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("BuyerId", "ArtworkPostId");
+
+                    b.HasIndex("ArtworkPostId");
+
+                    b.ToTable("PostBids");
+                });
+
+            modelBuilder.Entity("ArtAuction.Application.Entities.PostSold", b =>
+                {
+                    b.Property<int>("BuyerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ArtworkPostId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("FinalPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("IsPaid")
+                        .HasColumnType("bit");
+
+                    b.HasKey("BuyerId", "ArtworkPostId");
+
+                    b.HasIndex("ArtworkPostId");
+
+                    b.ToTable("PostSolds");
+                });
+
+            modelBuilder.Entity("ArtAuction.Application.Entities.PostTag", b =>
+                {
+                    b.Property<int>("ArtworkPostId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TagId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ArtworkPostId", "TagId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("PostTags");
+                });
+
+            modelBuilder.Entity("ArtAuction.Application.Entities.Tag", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tags");
+                });
+
+            modelBuilder.Entity("ArtAuction.Application.Entities.WatchList", b =>
+                {
+                    b.Property<int>("BuyerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ArtworkPostId")
+                        .HasColumnType("int");
+
+                    b.HasKey("BuyerId", "ArtworkPostId");
+
+                    b.HasIndex("ArtworkPostId");
+
+                    b.ToTable("WatchLists");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
@@ -399,65 +500,28 @@ namespace ArtAuction.Infrastructure.Migrations
 
             modelBuilder.Entity("ArtAuction.Application.Entities.Admin", b =>
                 {
-                    b.HasBaseType("ArtAuction.Infrastructure.Identities.ApplicationUser");
-
-                    b.HasDiscriminator().HasValue("Admin");
+                    b.HasOne("ArtAuction.Application.Entities.ApplicationUser", null)
+                        .WithOne()
+                        .HasForeignKey("ArtAuction.Application.Entities.Admin", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ArtAuction.Application.Entities.Artist", b =>
                 {
-                    b.HasBaseType("ArtAuction.Infrastructure.Identities.ApplicationUser");
+                    b.HasOne("ArtAuction.Application.Entities.Admin", "Admin")
+                        .WithMany("Artist")
+                        .HasForeignKey("AdminId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.Property<int>("AdminId")
-                        .HasColumnType("int");
+                    b.HasOne("ArtAuction.Application.Entities.ApplicationUser", null)
+                        .WithOne()
+                        .HasForeignKey("ArtAuction.Application.Entities.Artist", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("HireDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasIndex("AdminId");
-
-                    b.ToTable("AspNetUsers", t =>
-                        {
-                            t.Property("City")
-                                .HasColumnName("Artist_City");
-
-                            t.Property("Country")
-                                .HasColumnName("Artist_Country");
-                        });
-
-                    b.HasDiscriminator().HasValue("Artist");
-                });
-
-            modelBuilder.Entity("ArtAuction.Application.Entities.Buyer", b =>
-                {
-                    b.HasBaseType("ArtAuction.Infrastructure.Identities.ApplicationUser");
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasDiscriminator().HasValue("Buyer");
+                    b.Navigation("Admin");
                 });
 
             modelBuilder.Entity("ArtAuction.Application.Entities.ArtworkPost", b =>
@@ -485,6 +549,15 @@ namespace ArtAuction.Infrastructure.Migrations
                     b.Navigation("Artist");
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("ArtAuction.Application.Entities.Buyer", b =>
+                {
+                    b.HasOne("ArtAuction.Application.Entities.ApplicationUser", null)
+                        .WithOne()
+                        .HasForeignKey("ArtAuction.Application.Entities.Buyer", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ArtAuction.Application.Entities.PostBid", b =>
@@ -530,13 +603,13 @@ namespace ArtAuction.Infrastructure.Migrations
                     b.HasOne("ArtAuction.Application.Entities.ArtworkPost", "ArtworkPost")
                         .WithMany("PostTags")
                         .HasForeignKey("ArtworkPostId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ArtAuction.Application.Entities.Tag", "Tag")
                         .WithMany("PostTags")
                         .HasForeignKey("TagId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("ArtworkPost");
@@ -574,7 +647,7 @@ namespace ArtAuction.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
-                    b.HasOne("ArtAuction.Infrastructure.Identities.ApplicationUser", null)
+                    b.HasOne("ArtAuction.Application.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -583,7 +656,7 @@ namespace ArtAuction.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
-                    b.HasOne("ArtAuction.Infrastructure.Identities.ApplicationUser", null)
+                    b.HasOne("ArtAuction.Application.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -598,7 +671,7 @@ namespace ArtAuction.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ArtAuction.Infrastructure.Identities.ApplicationUser", null)
+                    b.HasOne("ArtAuction.Application.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -607,43 +680,11 @@ namespace ArtAuction.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
-                    b.HasOne("ArtAuction.Infrastructure.Identities.ApplicationUser", null)
+                    b.HasOne("ArtAuction.Application.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("ArtAuction.Application.Entities.Artist", b =>
-                {
-                    b.HasOne("ArtAuction.Application.Entities.Admin", "Admin")
-                        .WithMany("Artist")
-                        .HasForeignKey("AdminId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Admin");
-                });
-
-            modelBuilder.Entity("ArtAuction.Application.Entities.ArtworkPost", b =>
-                {
-                    b.Navigation("PostBids");
-
-                    b.Navigation("PostSolds");
-
-                    b.Navigation("PostTags");
-
-                    b.Navigation("WatchLists");
-                });
-
-            modelBuilder.Entity("ArtAuction.Application.Entities.Category", b =>
-                {
-                    b.Navigation("ArtworkPosts");
-                });
-
-            modelBuilder.Entity("ArtAuction.Application.Entities.Tag", b =>
-                {
-                    b.Navigation("PostTags");
                 });
 
             modelBuilder.Entity("ArtAuction.Application.Entities.Admin", b =>
@@ -658,6 +699,17 @@ namespace ArtAuction.Infrastructure.Migrations
                     b.Navigation("ArtworkPosts");
                 });
 
+            modelBuilder.Entity("ArtAuction.Application.Entities.ArtworkPost", b =>
+                {
+                    b.Navigation("PostBids");
+
+                    b.Navigation("PostSolds");
+
+                    b.Navigation("PostTags");
+
+                    b.Navigation("WatchLists");
+                });
+
             modelBuilder.Entity("ArtAuction.Application.Entities.Buyer", b =>
                 {
                     b.Navigation("PostBids");
@@ -665,6 +717,16 @@ namespace ArtAuction.Infrastructure.Migrations
                     b.Navigation("PostSolds");
 
                     b.Navigation("WatchLists");
+                });
+
+            modelBuilder.Entity("ArtAuction.Application.Entities.Category", b =>
+                {
+                    b.Navigation("ArtworkPosts");
+                });
+
+            modelBuilder.Entity("ArtAuction.Application.Entities.Tag", b =>
+                {
+                    b.Navigation("PostTags");
                 });
 #pragma warning restore 612, 618
         }
