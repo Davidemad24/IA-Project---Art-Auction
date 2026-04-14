@@ -15,6 +15,6 @@ public class PostBidConfigurations : IEntityTypeConfiguration<PostBid>
         builder.HasKey(postBid => new { postBid.BuyerId, postBid.ArtworkPostId }); 
         
         // Other properties configurations
-        builder.Property(postBid => postBid.BuyerPrice).HasPrecision(18, 2).IsRequired();
+        builder.Property(postBid => postBid.BuyerPrice).IsRequired();
     }
 }

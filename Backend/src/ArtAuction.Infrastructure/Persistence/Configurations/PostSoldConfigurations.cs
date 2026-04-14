@@ -15,6 +15,6 @@ public class PostSoldConfigurations : IEntityTypeConfiguration<PostSold>
         builder.HasKey(postSold => new { postSold.BuyerId, postSold.ArtworkPostId });
         
         // Other properties configurations
-        builder.Property(postSold => postSold.FinalPrice).HasPrecision(18, 2).IsRequired();
+        builder.Property(postSold => postSold.FinalPrice).IsRequired();
     }
 }

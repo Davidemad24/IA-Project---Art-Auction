@@ -8,7 +8,15 @@ public class BuyerConfigurations : IEntityTypeConfiguration<Buyer>
 {
     public void Configure(EntityTypeBuilder<Buyer> builder)
     {
-        // Other properties constraints
+        // Set table name
+        builder.ToTable("Buyers");
+        
+        // Primary Key
+        builder.HasKey(buyer => buyer.Id);
+        builder.Property(buyer => buyer.Id).UseIdentityColumn(seed: 1001, increment: 1);
+        
+        // Other properties constraints 
+        builder.Property(buyer => buyer.UserId).IsRequired();
         builder.Property(buyer => buyer.City).HasMaxLength(50).IsRequired();
         builder.Property(buyer => buyer.Country).HasMaxLength(50).IsRequired();
         builder.Property(buyer => buyer.PhoneNumber).HasMaxLength(13).IsRequired();

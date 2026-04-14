@@ -18,8 +18,7 @@ public class ArtworkPostConfigurations : IEntityTypeConfiguration<ArtworkPost>
         // Other properties configurations
         builder.Property(artworkPost => artworkPost.Title).HasMaxLength(100).IsRequired(); 
         builder.Property(artworkPost => artworkPost.Description).HasMaxLength(300);
-        builder.Property(artworkPost => artworkPost.InitialPrice).HasPrecision(18, 2).IsRequired();
-        builder.Property(artworkPost => artworkPost.BuyNewPrice).HasPrecision(18, 2);
+        builder.Property(artworkPost => artworkPost.InitialPrice).IsRequired();
         builder.Property(artworkPost => artworkPost.StartDate).IsRequired();
         builder.Property(artworkPost => artworkPost.EndDate).IsRequired();
         builder.Property(artworkPost => artworkPost.Image).IsRequired();
