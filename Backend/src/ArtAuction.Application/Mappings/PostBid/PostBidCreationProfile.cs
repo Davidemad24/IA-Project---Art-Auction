@@ -7,6 +7,10 @@ public class PostBidCreationProfile : Profile
 {
     public PostBidCreationProfile()
     {
-        CreateMap<PostBidCreationDto, Entities.PostBid>();
+        CreateMap<PostBidCreationDto, Entities.PostBid>()
+            .ForMember(postBid => postBid.ArtworkPost, 
+                opt => opt.Ignore())
+            .ForMember(postBid => postBid.Buyer, 
+                opt => opt.Ignore());
     }
 }

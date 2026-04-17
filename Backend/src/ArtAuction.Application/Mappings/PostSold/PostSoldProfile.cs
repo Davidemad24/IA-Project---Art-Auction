@@ -8,15 +8,14 @@ public class PostSoldProfile : Profile
     public PostSoldProfile()
     {
         CreateMap<Entities.PostSold, PostSoldDto>()
-            // 1. Flattening: Get the Name from the Buyer navigation property
-            .ForMember(dest => dest.BuyerName, 
+            // Get the Name from the Buyer navigation property
+            .ForMember(postSoldDto => postSoldDto.BuyerName,
                 opt => 
-                    opt.MapFrom(src => src.Buyer.UserName)) 
+                    opt.MapFrom(postSold => postSold.Buyer.UserName))
 
-            // 3. Nested Mapping: AutoMapper will automatically look for a Map 
-            // between ArtworkPost (Entity) and ArtworkPostDto (DTO)
-            .ForMember(dest => dest.ArtworkPost, 
+            // Nested Mapping: AutoMapper will automatically look for a Map 
+            .ForMember(postSoldDto => postSoldDto.ArtworkPost,
                 opt => 
-                    opt.MapFrom(src => src.ArtworkPost));
+                    opt.MapFrom(postSold => postSold.ArtworkPost));
     }
 }

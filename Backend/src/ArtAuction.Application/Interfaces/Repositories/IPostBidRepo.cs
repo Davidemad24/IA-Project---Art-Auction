@@ -4,11 +4,11 @@ namespace ArtAuction.Application.Interfaces.Repositories;
 
 public interface IPostBidRepo
 {
-    // Query
-    Task<ICollection<PostBid>> GetAllPostBidsForPost(int postId);
+    // Query methods
+    Task<PostBid?> GetTopBid(int artworkPostId);
+    Task<ICollection<PostBid>> GetAllBuyerBids(int buyerId);
     
     // Manipulation methods
     Task<bool> CreatePostBid(PostBid postBid);
-    Task<bool> UpdatePostBid(PostBid postBid);
     Task<bool> DeletePostBid(int artworkPostId, int buyerId);
 }

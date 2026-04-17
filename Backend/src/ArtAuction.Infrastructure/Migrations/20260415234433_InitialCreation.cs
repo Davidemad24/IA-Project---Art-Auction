@@ -32,6 +32,7 @@ namespace ArtAuction.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserType = table.Column<string>(type: "nvarchar(21)", maxLength: 21, nullable: false),
                     Artist_City = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Artist_Country = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
@@ -48,7 +49,7 @@ namespace ArtAuction.Infrastructure.Migrations
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: true),
                     PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
@@ -213,7 +214,7 @@ namespace ArtAuction.Infrastructure.Migrations
                     Image = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
                     ArtistId = table.Column<int>(type: "int", nullable: false),
-                    AdminId = table.Column<int>(type: "int", nullable: false)
+                    AdminId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -248,13 +249,13 @@ namespace ArtAuction.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PostBids", x => new { x.BuyerId, x.ArtworkPostId });
+                    table.PrimaryKey("PK_PostBids", x => new { x.BuyerId, x.ArtworkPostId, x.BuyerPrice });
                     table.ForeignKey(
                         name: "FK_PostBids_ArtworkPosts_ArtworkPostId",
                         column: x => x.ArtworkPostId,
                         principalTable: "ArtworkPosts",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PostBids_AspNetUsers_BuyerId",
                         column: x => x.BuyerId,
@@ -280,7 +281,7 @@ namespace ArtAuction.Infrastructure.Migrations
                         column: x => x.ArtworkPostId,
                         principalTable: "ArtworkPosts",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PostSolds_AspNetUsers_BuyerId",
                         column: x => x.BuyerId,
@@ -304,7 +305,7 @@ namespace ArtAuction.Infrastructure.Migrations
                         column: x => x.ArtworkPostId,
                         principalTable: "ArtworkPosts",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PostTags_Tags_TagId",
                         column: x => x.TagId,
@@ -328,7 +329,7 @@ namespace ArtAuction.Infrastructure.Migrations
                         column: x => x.ArtworkPostId,
                         principalTable: "ArtworkPosts",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_WatchLists_AspNetUsers_BuyerId",
                         column: x => x.BuyerId,

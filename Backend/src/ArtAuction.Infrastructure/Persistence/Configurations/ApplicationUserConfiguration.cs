@@ -1,5 +1,4 @@
 ﻿using ArtAuction.Application.Entities;
-using ArtAuction.Infrastructure.Identities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

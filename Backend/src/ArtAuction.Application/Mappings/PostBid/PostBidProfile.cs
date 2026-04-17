@@ -8,16 +8,9 @@ public class PostBidProfile : Profile
     public PostBidProfile()
     {
         CreateMap<Entities.PostBid, PostBidDto>()
-            .ForMember(dest => dest.BuyerName, opt 
-                => opt.MapFrom((src, dest, destMember, context) => 
-            {
-                // Retrieve the dictionary passed from the Service layer
-                if (context.Items.TryGetValue("BuyerNames", out var obj) && 
-                    obj is Dictionary<int, string> buyerNames)
-                {
-                    return buyerNames.TryGetValue(src.BuyerId, out var name) ? name : "Unknown Buyer";
-                }
-                return "Unknown Buyer";
-            }));
+            // Extract name from instance as dictionary
+            .ForMember(postBidDto => postBidDto.BuyerName, opt 
+                => opt.MapFrom(postBid => postBid.Buyer != null && postBid.Buyer.UserName != null 
+                    ? postBid.Buyer.UserName : "Unknown Buyer"));
     }
 }

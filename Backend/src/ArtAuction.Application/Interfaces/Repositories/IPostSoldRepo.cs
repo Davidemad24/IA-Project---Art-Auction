@@ -10,6 +10,5 @@ public interface IPostSoldRepo
     
     // Manipulation methods
     Task<bool> CreatePostSold(PostSold postSold);
-    Task<bool> UpdatePostBuyer(PostSold postSold);
     Task<bool> MarkAsPaid(int artworkPostId,int buyerId);
 }

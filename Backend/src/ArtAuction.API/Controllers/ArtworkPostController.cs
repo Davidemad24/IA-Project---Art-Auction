@@ -1,5 +1,6 @@
 ﻿using ArtAuction.Application.DTOs.ArtworkPost;
 using ArtAuction.Application.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ArtAuction.API.Controllers;
@@ -26,6 +27,7 @@ public class ArtworkPostController : ControllerBase
     }
 
     // Get artist posts API
+    [Authorize(Roles = "Artist")]
     [HttpGet("GetAllArtistPosts")]
     public async Task<IActionResult> GetAllArtistPosts(int artistId)
     {
@@ -42,6 +44,7 @@ public class ArtworkPostController : ControllerBase
     }
     
     // Get unapproved API
+    [Authorize(Roles = "Admin")]
     [HttpGet("GetUnapprovedArtworkPosts")]
     public async Task<IActionResult> GetUnapprovedArtworkPosts()
     {
@@ -50,8 +53,9 @@ public class ArtworkPostController : ControllerBase
     }
 
     // Create artwork post API
+    [Authorize(Roles = "Artist")]
     [HttpPost("CreateArtworkPost")]
-    public async Task<IActionResult> CreateArtworkPost([FromBody] ArtworkPostCreationDto artworkPostCreationDto)
+    public async Task<IActionResult> CreateArtworkPost([FromForm] ArtworkPostCreationDto artworkPostCreationDto)
     {
         // Check api state
         if (!ModelState.IsValid)
@@ -67,8 +71,9 @@ public class ArtworkPostController : ControllerBase
     }
     
     // Update artwork post API
+    [Authorize(Roles = "Artist")]
     [HttpPut("UpdateArtworkPost")]
-    public async Task<IActionResult> UpdateArtworkPost([FromBody] ArtworkPostUpdatingDto artworkPostUpdatingDto)
+    public async Task<IActionResult> UpdateArtworkPost([FromForm] ArtworkPostUpdatingDto artworkPostUpdatingDto)
     {
         // Check api state
         if (!ModelState.IsValid)
@@ -84,6 +89,7 @@ public class ArtworkPostController : ControllerBase
     }
     
     // Delete artwork post API
+    [Authorize(Roles = "Artist")]
     [HttpDelete("DeleteArtworkPost")]
     public async Task<IActionResult> DeleteArtworkPost(int artworkPostId)
     {
@@ -101,6 +107,7 @@ public class ArtworkPostController : ControllerBase
     }
     
     // Change end date API
+    [Authorize(Roles = "Artist")]
     [HttpPatch("ChangeEndDate")]
     public async Task<IActionResult> ChangeEndDate(int artworkPostId, [FromQuery] DateTime endDate)
     {
@@ -118,6 +125,7 @@ public class ArtworkPostController : ControllerBase
     }
     
     // Approve artwork post API
+    [Authorize(Roles = "Admin")]
     [HttpPatch("ApproveArtworkPost")]
     public async Task<IActionResult> ApproveArtworkPost(int artworkPostId, [FromQuery] int adminId)
     {

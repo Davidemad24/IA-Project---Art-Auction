@@ -13,7 +13,7 @@ public class ArtworkPost
     public byte[] Image { get; set; }
     public int CategoryId { get; set; }
     public int ArtistId { get; set; }
-    public int AdminId { get; set; }
+    public int? AdminId { get; set; }
     
     // Relationships
     public Category Category { get; set; }

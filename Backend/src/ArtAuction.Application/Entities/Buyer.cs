@@ -1,13 +1,10 @@
-﻿using ArtAuction.Infrastructure.Identities;
-
-namespace ArtAuction.Application.Entities;
+﻿namespace ArtAuction.Application.Entities;
 
 public class Buyer : ApplicationUser
 {
     // Attributes
     public string City { get; set; } 
-    public string Country { get; set; } 
-    public string PhoneNumber { get; set; } 
+    public string Country { get; set; }
     public string Address { get; set; } 
     
     // Relationships

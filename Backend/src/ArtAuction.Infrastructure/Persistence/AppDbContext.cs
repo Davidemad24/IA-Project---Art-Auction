@@ -1,5 +1,4 @@
 ﻿using ArtAuction.Application.Entities;
-using ArtAuction.Infrastructure.Identities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -32,4 +31,5 @@ public class AppDbContext : IdentityDbContext<ApplicationUser, IdentityRole<int>
     public DbSet<PostSold> PostSolds { get; set; }
     public DbSet<PostBid> PostBids { get; set; }
     public DbSet<WatchList> WatchLists { get; set; }
+    public DbSet<RefreshToken> RefreshTokens { get; set; }
 }

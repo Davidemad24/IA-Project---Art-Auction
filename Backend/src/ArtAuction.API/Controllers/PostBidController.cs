@@ -1,12 +1,14 @@
 ﻿using ArtAuction.Application.DTOs.ArtworkPost;
 using ArtAuction.Application.Interfaces.Repositories;
 using ArtAuction.Application.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ArtAuction.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[Authorize(Roles = "Buyer")]
 public class PostBidController : ControllerBase
 {
     // Attributes
@@ -16,6 +18,15 @@ public class PostBidController : ControllerBase
     public PostBidController(IPostBidServices postBidServices)
     {
         this._postBidServices = postBidServices;
+    }
+    
+    // Get buyer post bids
+    [Authorize(Roles = "Buyer")]
+    [HttpGet("GetBuyerPostBids")]
+    public async Task<IActionResult> GetBuyerPostBids([FromQuery] int buyerId)
+    {
+        // Return post bids
+        return Ok(await _postBidServices.GetAllBuyerBids(buyerId));
     }
     
     // Create post bid API
@@ -35,33 +46,16 @@ public class PostBidController : ControllerBase
         return Ok("Bid placed successfully. Wait for final results to appear.");
     }
     
-    // Update post bid API
-    [HttpPut("UpdatePostBid")]
-    public async Task<IActionResult> UpdatePostBid([FromBody] PostBidCreationDto postBidUpdatingDto)
-    {
-        // Check model state
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
-        
-        // Check stats
-        var result = await _postBidServices.UpdatePostBid(postBidUpdatingDto);
-        if (!result)
-            return NotFound("Could not update bid. The bid might not exist or the auction may have ended.");
-        
-        // Return success stats
-        return Ok("Bid updated successfully. Wait for final results to appear.");
-    }
-    
     // Delete post bid API
     [HttpDelete("DeletePostBid")]
-    public async Task<IActionResult> DeletePostBid([FromQuery] int postBidId, [FromQuery] int buyerId)
+    public async Task<IActionResult> DeletePostBid([FromQuery] int artworkPostId, [FromQuery] int buyerId)
     {
         // Check model state
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
         
         // Check stats
-        var result = await _postBidServices.DeletePostBid(postBidId, buyerId);
+        var result = await _postBidServices.DeletePostBid(artworkPostId, buyerId);
         if (!result)
             return NotFound("Bid not found or could not be deleted.");
         

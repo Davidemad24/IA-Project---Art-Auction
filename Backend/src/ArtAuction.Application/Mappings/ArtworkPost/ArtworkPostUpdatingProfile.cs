@@ -9,32 +9,36 @@ public class ArtworkPostUpdatingProfile : Profile
     public ArtworkPostUpdatingProfile()
     {
         CreateMap<ArtworkPostUpdatingDto, ArtworkPost>()
-            // 1. Map the Many-to-Many Tags
-            .ForMember(dest => dest.PostTags, opt 
-                => opt.MapFrom(src => 
-                    src.TagIds.Select(id => new PostTag { TagId = id }).ToList()))
-
-            // 2. Explicitly Null/Ignore fields for later Admin processing
-            // These will be null (for objects) or 0 (for IDs) in the DB
+            // ADD THIS LINE FIRST
             .ForMember(dest => dest.Id, 
+                opt => 
+                    opt.MapFrom(src => src.Id))
+            
+            // Map the Many-to-Many Tags
+            .ForMember(artworkPost => artworkPost.PostTags, opt 
+                => opt.MapFrom(artworkPostUpdatingDto => 
+                    artworkPostUpdatingDto.TagIds.Select(id => new PostTag { TagId = id }).ToList()))
+            
+            // Map image to array of bytes
+            .ForMember(artworkPost => artworkPost.Image,
                 opt => opt.Ignore())
-            .ForMember(dest => dest.AdminId, 
+
+            // Ignore ID fields (set it ro 0 but Db will make it different)
+            .ForMember(artworkPost => artworkPost.AdminId, 
                 opt => opt.Ignore()) 
-            .ForMember(dest => dest.Admin, 
-                opt => opt.Ignore())
             
-            // 3. Ignore relationship collections (should be empty on creation)
-            .ForMember(dest => dest.PostBids, 
+            // Ignore navigation properties
+            .ForMember(artworkPost => artworkPost.Admin, 
                 opt => opt.Ignore())
-            .ForMember(dest => dest.PostSolds, 
+            .ForMember(artworkPost => artworkPost.PostBids, 
                 opt => opt.Ignore())
-            .ForMember(dest => dest.WatchLists, 
+            .ForMember(artworkPost => artworkPost.PostSolds, 
                 opt => opt.Ignore())
-            
-            // 4. Navigation properties
-            .ForMember(dest => dest.Category, 
+            .ForMember(artworkPost => artworkPost.WatchLists, 
                 opt => opt.Ignore())
-            .ForMember(dest => dest.Artist, 
+            .ForMember(artworkPost => artworkPost.Category, 
+                opt => opt.Ignore())
+            .ForMember(artworkPost => artworkPost.Artist, 
                 opt => opt.Ignore());
     }
 }

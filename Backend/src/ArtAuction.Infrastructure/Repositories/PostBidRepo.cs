@@ -18,39 +18,38 @@ public class PostBidRepo : IPostBidRepo
         this._saveChanges = saveChanges;
     }
 
-    public async Task<ICollection<PostBid>> GetAllPostBidsForPost(int postId)
+    // Methods
+    public async Task<PostBid?> GetTopBid(int artworkPostId)
     {
-        // Return list of post bids
-        return await _dbContext.PostBids.Where(postbid => postbid.ArtworkPostId == postId).ToListAsync();
+        return await _dbContext.PostBids
+            .Where(postBid => postBid.ArtworkPostId == artworkPostId)
+            .OrderByDescending(postBid => postBid.BuyerPrice)
+            .AsNoTracking().FirstOrDefaultAsync();
+    }
+
+    public async Task<ICollection<PostBid>> GetAllBuyerBids(int buyerId)
+    {
+        return await _dbContext.PostBids.Where(
+                postBid => postBid.BuyerId == buyerId && 
+                postBid.ArtworkPost.EndDate > DateTime.UtcNow
+            ).Include(postBid => postBid.ArtworkPost).AsNoTracking().ToListAsync();
     }
 
     public async Task<bool> CreatePostBid(PostBid postBid)
     {
-        // Check existence
-        var pb = await _dbContext.PostBids.FirstOrDefaultAsync(postbid =>
-                postbid.ArtworkPostId == postBid.ArtworkPostId &&
-                postbid.BuyerId == postBid.BuyerId
-            );
-        if (pb != null)
+        // Check artwork post existence
+        var isArtworkPostExist = await _dbContext.ArtworkPosts
+            .AnyAsync(artworkPost => artworkPost.Id == postBid.ArtworkPostId && artworkPost.AdminId != null);
+        if (!isArtworkPostExist)
+            return false;
+        
+        // Check buyer existence
+        var isBuyerExist = await _dbContext.Buyers.AnyAsync(buyer => buyer.Id == postBid.BuyerId);
+        if (!isBuyerExist)
             return false;
         
         // Add post bid
         await _dbContext.PostBids.AddAsync(postBid);
-        return await _saveChanges.Save();
-    }
-
-    public async Task<bool> UpdatePostBid(PostBid postBid)
-    {
-        // Check existence
-        var pb = await _dbContext.PostBids.FirstOrDefaultAsync(postbid =>
-            postbid.ArtworkPostId == postBid.ArtworkPostId &&
-            postbid.BuyerId == postBid.BuyerId
-        );
-        if (pb == null)
-            return false;
-        
-        // Update price
-        pb.BuyerPrice = postBid.BuyerPrice;
         return await _saveChanges.Save();
     }
 

@@ -8,10 +8,9 @@ public class UnpaidPostSoldProfile : Profile
     public UnpaidPostSoldProfile()
     {
         CreateMap<Entities.PostSold, UnpaidPostSoldDto>()
-            // 2. Map the complex ArtworkPost object
-            // This works automatically if CreateMap<ArtworkPost, ArtworkPostDto>() exists
-            .ForMember(dest => dest.ArtworkPost, 
+            // Nested Mapping: AutoMapper will automatically look for a Map 
+            .ForMember(unpaidPostSoldDto => unpaidPostSoldDto.ArtworkPostTitle, 
                 opt => 
-                    opt.MapFrom(src => src.ArtworkPost));
+                    opt.MapFrom(postSold => postSold.ArtworkPost.Title));
     }
 }

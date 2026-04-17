@@ -10,16 +10,19 @@ public class ArtistArtworkPostProfile : Profile
     {
         CreateMap<ArtworkPost, ArtistArtworkPostDto>()
             // Map image
-            .ForMember(dest => dest.Image, opt 
-                => opt.MapFrom(src => src.Image != null ? Convert.ToBase64String(src.Image) : null))
+            .ForMember(artistArtworkPostDto => artistArtworkPostDto.Image,
+                opt
+                    => opt.MapFrom(artworkPost =>
+                        artworkPost.Image != null ? Convert.ToBase64String(artworkPost.Image) : null))
+
             // Map Category Name from the navigation property
-            .ForMember(artistArtworkPostDto => artistArtworkPostDto.CategoryName, 
-                opt => 
+            .ForMember(artistArtworkPostDto => artistArtworkPostDto.CategoryName,
+                opt =>
                     opt.MapFrom(artworkPost => artworkPost.Category != null ? artworkPost.Category.Name : string.Empty))
-            
+
             // Transform the join entity collection into a string array
-            .ForMember(artistArtworkPostDto => artistArtworkPostDto.Tags, 
-                opt => 
+            .ForMember(artistArtworkPostDto => artistArtworkPostDto.Tags,
+                opt =>
                     opt.MapFrom(artworkPost => artworkPost.PostTags.Select(pt => pt.Tag.Name).ToArray()));
     }
 }

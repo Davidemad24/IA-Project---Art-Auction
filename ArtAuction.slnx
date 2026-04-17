@@ -5,4 +5,7 @@
     <Project Path="Backend/src/ArtAuction.Application/ArtAuction.Application.csproj" />
     <Project Path="Backend/src/ArtAuction.Infrastructure/ArtAuction.Infrastructure.csproj" />
   </Folder>
+  <Folder Name="/Backend/tests/">
+    <Project Path="Backend/tests/ArtAuction.Tests.csproj" />
+  </Folder>
 </Solution>

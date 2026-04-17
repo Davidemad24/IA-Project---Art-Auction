@@ -8,32 +8,32 @@ public class ArtworkPostDetailedProfile : Profile
 {
     public ArtworkPostDetailedProfile()
     {
-        // 2. Map the main ArtworkPost entity
         CreateMap<ArtworkPost, ArtworkPostDetailedDto>()
             // Map image
-            .ForMember(dest => dest.Image, opt 
-                => opt.MapFrom(src => src.Image != null ? Convert.ToBase64String(src.Image) : null))
+            .ForMember(artworkPostDetailedDto => artworkPostDetailedDto.Image, 
+                opt 
+                    => opt.MapFrom(artworkPost => artworkPost.Image != null ? 
+                        Convert.ToBase64String(artworkPost.Image) : null))
             
             // Map Category Name
-            .ForMember(dest => dest.CategoryName,
+            .ForMember(artworkPostDetailedDto => artworkPostDetailedDto.CategoryName,
                 opt =>
-                    opt.MapFrom(src => src.Category != null ? src.Category.Name : string.Empty))
+                    opt.MapFrom(artworkPost => artworkPost.Category != null ? artworkPost.Category.Name : string.Empty))
 
             // Map Tags from the Join Table
-            .ForMember(dest => dest.Tags,
+            .ForMember(artworkPostDetailedDto => artworkPostDetailedDto.Tags,
                 opt => 
-                    opt.MapFrom(src => src.PostTags != null
-                    ? src.PostTags.Select(pt => pt.Tag.Name).ToArray()
-                    : new string[0]))
+                        opt.MapFrom(artworkPost => artworkPost.PostTags != null ? 
+                            artworkPost.PostTags.Select(pt => pt.Tag.Name).ToArray() : new string[0]))
 
             // Map the Bids collection (AutoMapper maps PostBid -> PostBidDto automatically)
-            .ForMember(dest => dest.PostBid,
+            .ForMember(artworkPostDetailedDto => artworkPostDetailedDto.PostBid,
                 opt => 
-                    opt.MapFrom(src => src.PostBids))
+                    opt.MapFrom(artworkPost => artworkPost.PostBids))
 
-            // ArtistName must be handled manually since the navigation to User is missing
-            .ForMember(artworkPostDto => artworkPostDto.ArtistName,
+            // Map artist name from navigation property
+            .ForMember(artworkPostDetailedDto => artworkPostDetailedDto.ArtistName,
                 opt =>
-                    opt.MapFrom(src => src.Artist.UserName));
+                    opt.MapFrom(artworkPost => artworkPost.Artist.UserName));
     }
 }

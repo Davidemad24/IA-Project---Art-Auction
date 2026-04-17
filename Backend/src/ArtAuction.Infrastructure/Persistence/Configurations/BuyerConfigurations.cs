@@ -9,10 +9,10 @@ public class BuyerConfigurations : IEntityTypeConfiguration<Buyer>
     public void Configure(EntityTypeBuilder<Buyer> builder)
     {
         // Other properties constraints
-        builder.Property(buyer => buyer.City).HasMaxLength(50).IsRequired();
-        builder.Property(buyer => buyer.Country).HasMaxLength(50).IsRequired();
-        builder.Property(buyer => buyer.PhoneNumber).HasMaxLength(13).IsRequired();
-        builder.Property(buyer => buyer.Address).HasMaxLength(150).IsRequired();
+        builder.Property(buyer => buyer.City).HasMaxLength(50);
+        builder.Property(buyer => buyer.Country).HasMaxLength(50);
+        builder.Property(buyer => buyer.PhoneNumber).HasMaxLength(13);
+        builder.Property(buyer => buyer.Address).HasMaxLength(150);
         
         // Relationships configurations
         builder.HasMany(buyer => buyer.WatchLists).WithOne(watchList => watchList.Buyer)

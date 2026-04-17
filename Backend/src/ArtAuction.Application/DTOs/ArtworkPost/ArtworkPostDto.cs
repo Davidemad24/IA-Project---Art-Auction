@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using ArtAuction.Application.DTOs.Tag;
+using Microsoft.AspNetCore.Http;
 
 namespace ArtAuction.Application.DTOs.ArtworkPost;
 

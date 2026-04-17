@@ -9,10 +9,16 @@ public class ArtworkPostProfile : Profile
     public ArtworkPostProfile()
     {
         CreateMap<ArtworkPost, ArtworkPostDto>()
+            // Map image
+            .ForMember(artistArtworkPostDto => artistArtworkPostDto.Image, 
+                opt 
+                    => opt.MapFrom(artworkPost => (artworkPost.Image != null && artworkPost.Image.Length > 0) ? 
+                        Convert.ToBase64String(artworkPost.Image) : String.Empty))
+            
             // Map Artist Name from the Artist navigation property
             .ForMember(artworkPostDto => artworkPostDto.ArtistName, 
                 opt => 
-                    opt.MapFrom(src => src.Artist.UserName))
+                    opt.MapFrom(artworkPost => artworkPost.Artist.UserName))
             
             // Map Category Name from the Category navigation property
             .ForMember(artworkPostDto => artworkPostDto.CategoryName, 

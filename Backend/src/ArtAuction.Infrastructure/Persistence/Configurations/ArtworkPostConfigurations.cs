@@ -34,12 +34,12 @@ public class ArtworkPostConfigurations : IEntityTypeConfiguration<ArtworkPost>
         builder.HasOne(artworkPost => artworkPost.Admin).WithMany(admin => admin.ArtworkPosts)
             .HasForeignKey(artworkPost => artworkPost.AdminId).OnDelete(DeleteBehavior.Restrict);
         builder.HasMany(artworkPost => artworkPost.PostBids).WithOne(postBid => postBid.ArtworkPost)
-            .HasForeignKey(postBid => postBid.ArtworkPostId).OnDelete(DeleteBehavior.Restrict);
+            .HasForeignKey(postBid => postBid.ArtworkPostId).OnDelete(DeleteBehavior.Cascade);
         builder.HasMany(artworkPost => artworkPost.WatchLists).WithOne(watchList => watchList.ArtworkPost)
-            .HasForeignKey(watchList => watchList.ArtworkPostId).OnDelete(DeleteBehavior.Restrict);
+            .HasForeignKey(watchList => watchList.ArtworkPostId).OnDelete(DeleteBehavior.Cascade);
         builder.HasMany(artworkPost => artworkPost.PostSolds).WithOne(postSold => postSold.ArtworkPost)
-            .HasForeignKey(postSold => postSold.ArtworkPostId).OnDelete(DeleteBehavior.Restrict);
+            .HasForeignKey(postSold => postSold.ArtworkPostId).OnDelete(DeleteBehavior.Cascade);
         builder.HasMany(artworkPost => artworkPost.PostTags).WithOne(postTag => postTag.ArtworkPost)
-            .HasForeignKey(postTag => postTag.ArtworkPostId).OnDelete(DeleteBehavior.Restrict);
+            .HasForeignKey(postTag => postTag.ArtworkPostId).OnDelete(DeleteBehavior.Cascade);
     }
 }

@@ -12,7 +12,7 @@ public class PostBidConfigurations : IEntityTypeConfiguration<PostBid>
         builder.ToTable("PostBids");
         
         // Primary key
-        builder.HasKey(postBid => new { postBid.BuyerId, postBid.ArtworkPostId }); 
+        builder.HasKey(postBid => new { postBid.BuyerId, postBid.ArtworkPostId, postBid.BuyerPrice }); 
         
         // Other properties configurations
         builder.Property(postBid => postBid.BuyerPrice).HasPrecision(18, 2).IsRequired();

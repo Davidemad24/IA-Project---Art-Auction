@@ -24,14 +24,20 @@ public class PostSoldRepo : IPostSoldRepo
         return await _dbContext.PostSolds
             .Include(postSold => postSold.ArtworkPost)
             .ThenInclude(artworkPost => artworkPost.Category)
-            .Include(postSold => postSold.Buyer).ToListAsync();
+            .Include(postSold => postSold.ArtworkPost)
+            .ThenInclude(artworkPost => artworkPost.Artist)
+            .Include(postSold => postSold.ArtworkPost)
+            .ThenInclude(artworkPost => artworkPost.PostTags)
+            .ThenInclude(postTag => postTag.Tag)
+            .Include(postSold => postSold.Buyer)
+            .AsNoTracking().ToListAsync();
     }
 
     public async Task<PostSold?> GetUnpaidPostSoldByBuyer(int buyerId)
     {
         return await _dbContext.PostSolds
             .Include(postSold => postSold.ArtworkPost)
-            .FirstOrDefaultAsync(postSold => postSold.BuyerId == buyerId && !postSold.IsPaid);
+            .AsNoTracking().FirstOrDefaultAsync(postSold => postSold.BuyerId == buyerId && !postSold.IsPaid);
     }
 
     public async Task<bool> CreatePostSold(PostSold postSold)
@@ -44,20 +50,20 @@ public class PostSoldRepo : IPostSoldRepo
         if (post != null)
             return false;
         
-        // Add postSold
-        await _dbContext.PostSolds.AddAsync(postSold);
-        return await _saveChanges.Save();
-    }
-
-    public async Task<bool> UpdatePostBuyer(PostSold postSold)
-    {
-        // Check existence
-        var post = await _dbContext.PostSolds.FirstOrDefaultAsync(sp => sp.ArtworkPostId == postSold.ArtworkPostId);
-        if (post == null)
+        // Check artwork post existence
+        var isArtworkPostExist = await _dbContext.ArtworkPosts
+            .AnyAsync(artworkPost => artworkPost.Id == postSold.ArtworkPostId);
+        if (!isArtworkPostExist)
             return false;
         
-        // Update buyer
-        post.BuyerId = postSold.BuyerId;
+        // Check buyer existence
+        var isBuyerExist = await _dbContext.Buyers.AnyAsync(buyer => buyer.Id == postSold.BuyerId);
+        if (!isBuyerExist)
+            return false;
+        
+        
+        // Add postSold
+        await _dbContext.PostSolds.AddAsync(postSold);
         return await _saveChanges.Save();
     }
 

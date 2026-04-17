@@ -1,6 +1,4 @@
-﻿using ArtAuction.Infrastructure.Identities;
-
-namespace ArtAuction.Application.Entities;
+﻿namespace ArtAuction.Application.Entities;
 
 public class Admin : ApplicationUser
 {

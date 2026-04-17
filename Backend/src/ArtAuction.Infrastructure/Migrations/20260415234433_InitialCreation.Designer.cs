@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ArtAuction.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260409145357_SeedingTablesData")]
-    partial class SeedingTablesData
+    [Migration("20260415234433_InitialCreation")]
+    partial class InitialCreation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,7 +33,7 @@ namespace ArtAuction.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AdminId")
+                    b.Property<int?>("AdminId")
                         .HasColumnType("int");
 
                     b.Property<int>("ArtistId")
@@ -111,7 +111,7 @@ namespace ArtAuction.Infrastructure.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("BuyerId", "ArtworkPostId");
+                    b.HasKey("BuyerId", "ArtworkPostId", "BuyerPrice");
 
                     b.HasIndex("ArtworkPostId");
 
@@ -216,6 +216,10 @@ namespace ArtAuction.Infrastructure.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -228,7 +232,6 @@ namespace ArtAuction.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasMaxLength(13)
                         .HasColumnType("nvarchar(13)");
 
@@ -411,7 +414,7 @@ namespace ArtAuction.Infrastructure.Migrations
                 {
                     b.HasBaseType("ArtAuction.Infrastructure.Identities.ApplicationUser");
 
-                    b.Property<int>("AdminId")
+                    b.Property<int?>("AdminId")
                         .HasColumnType("int");
 
                     b.Property<string>("City")
@@ -468,8 +471,7 @@ namespace ArtAuction.Infrastructure.Migrations
                     b.HasOne("ArtAuction.Application.Entities.Admin", "Admin")
                         .WithMany("ArtworkPosts")
                         .HasForeignKey("AdminId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("ArtAuction.Application.Entities.Artist", "Artist")
                         .WithMany("ArtworkPosts")
@@ -495,7 +497,7 @@ namespace ArtAuction.Infrastructure.Migrations
                     b.HasOne("ArtAuction.Application.Entities.ArtworkPost", "ArtworkPost")
                         .WithMany("PostBids")
                         .HasForeignKey("ArtworkPostId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ArtAuction.Application.Entities.Buyer", "Buyer")
@@ -514,7 +516,7 @@ namespace ArtAuction.Infrastructure.Migrations
                     b.HasOne("ArtAuction.Application.Entities.ArtworkPost", "ArtworkPost")
                         .WithMany("PostSolds")
                         .HasForeignKey("ArtworkPostId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ArtAuction.Application.Entities.Buyer", "Buyer")
@@ -533,7 +535,7 @@ namespace ArtAuction.Infrastructure.Migrations
                     b.HasOne("ArtAuction.Application.Entities.ArtworkPost", "ArtworkPost")
                         .WithMany("PostTags")
                         .HasForeignKey("ArtworkPostId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ArtAuction.Application.Entities.Tag", "Tag")
@@ -552,7 +554,7 @@ namespace ArtAuction.Infrastructure.Migrations
                     b.HasOne("ArtAuction.Application.Entities.ArtworkPost", "ArtworkPost")
                         .WithMany("WatchLists")
                         .HasForeignKey("ArtworkPostId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ArtAuction.Application.Entities.Buyer", "Buyer")
@@ -622,8 +624,7 @@ namespace ArtAuction.Infrastructure.Migrations
                     b.HasOne("ArtAuction.Application.Entities.Admin", "Admin")
                         .WithMany("Artist")
                         .HasForeignKey("AdminId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Admin");
                 });

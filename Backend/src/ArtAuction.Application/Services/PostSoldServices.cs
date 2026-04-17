@@ -38,24 +38,6 @@ public class PostSoldServices : IPostSoldServices
         return _mapper.Map<UnpaidPostSoldDto>(unpaidPost);
     }
 
-    public async Task<bool> CreatePostSold(PostSoldCreationDto postSoldCreationDto)
-    {
-        // Map DTO to entity
-        var postSold = _mapper.Map<PostSold>(postSoldCreationDto);
-        
-        // Create post sold relation and return stats
-        return await _postSoldRepo.CreatePostSold(postSold);
-    }
-
-    public async Task<bool> UpdatePostBuyer(PostSoldCreationDto postSoldUpdatingDto)
-    {
-        // Map DTO to entity
-        var postSold = _mapper.Map<PostSold>(postSoldUpdatingDto);
-        
-        // Update post buyer and return stats
-        return await _postSoldRepo.UpdatePostBuyer(postSold);
-    }
-
     public async Task<bool> MarkAsPaid(PostSoldPaidDto postSoldPaidDto)
     {
         // Mark post sold record as paid

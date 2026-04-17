@@ -20,6 +20,15 @@ public class PostBidServices : IPostBidServices
     }
     
     // Methods
+    public async Task<ICollection<BuyerPostBidDto>> GetAllBuyerBids(int buyerId)
+    {
+        // Get post bids
+        var postBids = await _postBidRepo.GetAllBuyerBids(buyerId);
+        
+        // Return mapped DTO
+        return _mapper.Map<ICollection<BuyerPostBidDto>>(postBids);
+    }
+
     public async Task<bool> CreatePostBid(PostBidCreationDto postBidCreationDto)
     {
         // Map DTO to entity
@@ -27,15 +36,6 @@ public class PostBidServices : IPostBidServices
         
         // Return boolean
         return await _postBidRepo.CreatePostBid(postBid);
-    }
-
-    public async Task<bool> UpdatePostBid(PostBidCreationDto postBidUpdatingDto)
-    {
-        // Map DTO to entity
-        var postBid = _mapper.Map<PostBid>(postBidUpdatingDto);
-        
-        // Return boolean
-        return await _postBidRepo.UpdatePostBid(postBid);
     }
 
     public async Task<bool> DeletePostBid(int artworkPostId, int buyerId)

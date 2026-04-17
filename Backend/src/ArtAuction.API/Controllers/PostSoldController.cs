@@ -1,5 +1,6 @@
 ﻿using ArtAuction.Application.DTOs.PostSold;
 using ArtAuction.Application.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ArtAuction.API.Controllers;
@@ -18,6 +19,7 @@ public class PostSoldController : ControllerBase
     }
     
     // Get post sold API
+    [Authorize(Roles = "Admin")]
     [HttpGet("GetAllPostSold")]
     public async Task<IActionResult> GetAllPostSold()
     {
@@ -26,6 +28,7 @@ public class PostSoldController : ControllerBase
     }
     
     // Get Unpaid posts API
+    [Authorize(Roles = "Buyer")]
     [HttpGet("GetUnpaidPostForBuyer")]
     public async Task<IActionResult> GetUnpaidPostForBuyer(int buyerId)
     {
@@ -33,41 +36,8 @@ public class PostSoldController : ControllerBase
         return Ok(await _postSoldServices.GetUnpaidPostSoldForBuyer(buyerId));
     }
     
-    // Create post sold API
-    [HttpPost("CreatePostSold")]
-    public async Task<IActionResult> CreatePostSold([FromBody] PostSoldCreationDto postSoldCreationDto)
-    {
-        // Check model state
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
-        
-        // Check creation stats
-        var result = await _postSoldServices.CreatePostSold(postSoldCreationDto);
-        if (!result)
-            return StatusCode(500, "An error occurred while recording the sale.");
-        
-        // Return success stats
-        return Ok("Sale recorded successfully.");
-    }
-    
-    // Update buyer API
-    [HttpPatch("UpdateBuyer")]
-    public async Task<IActionResult> UpdateBostBuyer([FromBody] PostSoldCreationDto postSoldUpdatingDto)
-    {
-        // Check model state
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
-        
-        // Check updating stats
-        var result = await _postSoldServices.UpdatePostBuyer(postSoldUpdatingDto);
-        if (!result)
-            return NotFound("Could not update the buyer. The sale record may not exist.");
-        
-        // Return success stats
-        return Ok("Successfully updated the buyer.");
-    }
-    
     // Mark as paid API
+    [Authorize(Roles = "Buyer")]
     [HttpPatch("MarkAsPaid")]
     public async Task<IActionResult> MarkAsPaid([FromBody] PostSoldPaidDto postSoldPaidDto)
     {
