@@ -40,6 +40,13 @@ public class PostSoldRepo : IPostSoldRepo
             .AsNoTracking().FirstOrDefaultAsync(postSold => postSold.BuyerId == buyerId && !postSold.IsPaid);
     }
 
+    public async Task<ICollection<PostSold>> GetBuyerPostSolds(int buyerId)
+    {
+        return await _dbContext.PostSolds.Where(postSold => postSold.BuyerId == buyerId)
+            .Include(postSold => postSold.ArtworkPost)
+            .AsNoTracking().ToListAsync();
+    }
+
     public async Task<bool> CreatePostSold(PostSold postSold)
     {
         // Check existence

@@ -7,6 +7,7 @@ public interface IPostSoldRepo
     // Query methods
     Task<ICollection<PostSold>> GetAllPostSolds();
     Task<PostSold?> GetUnpaidPostSoldByBuyer(int buyerId);
+    Task<ICollection<PostSold>> GetBuyerPostSolds(int buyerId);
     
     // Manipulation methods
     Task<bool> CreatePostSold(PostSold postSold);

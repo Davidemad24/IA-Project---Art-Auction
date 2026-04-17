@@ -38,6 +38,15 @@ public class PostSoldServices : IPostSoldServices
         return _mapper.Map<UnpaidPostSoldDto>(unpaidPost);
     }
 
+    public async Task<ICollection<BuyerPostSoldDto>> GetBuyerPostSolds(int buyerId)
+    {
+        // Get post sold for buyer
+        var postSolds = await _postSoldRepo.GetBuyerPostSolds(buyerId);
+        
+        // Return mapped DTO
+        return _mapper.Map<ICollection<BuyerPostSoldDto>>(postSolds);
+    }
+
     public async Task<bool> MarkAsPaid(PostSoldPaidDto postSoldPaidDto)
     {
         // Mark post sold record as paid

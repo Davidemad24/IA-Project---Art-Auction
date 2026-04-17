@@ -36,6 +36,14 @@ public class PostSoldController : ControllerBase
         return Ok(await _postSoldServices.GetUnpaidPostSoldForBuyer(buyerId));
     }
     
+    // Get buyer post bids
+    [Authorize(Roles = "Buyer")]
+    [HttpGet("GetPostSoldForBuyer")]
+    public async Task<IActionResult> GetPostSoldForBuyer(int buyerId)
+    {
+        return Ok(await _postSoldServices.GetBuyerPostSolds(buyerId));
+    }
+    
     // Mark as paid API
     [Authorize(Roles = "Buyer")]
     [HttpPatch("MarkAsPaid")]
