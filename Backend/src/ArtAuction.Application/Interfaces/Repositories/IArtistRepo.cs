@@ -6,7 +6,8 @@ public interface IArtistRepo
 {
     // Query methods
     Task<Artist?> GetArtistById(int artistId);
-    Task<List<Artist>> GetUnaprovedArtists();
+    Task<ICollection<Artist>> GetApprovedArtists();
+    Task<ICollection<Artist>> GetUnaprovedArtists();
     
     // Manipulation methods
     Task<bool> ApproveArtist(int artistId, int adminId);

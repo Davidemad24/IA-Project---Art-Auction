@@ -1,0 +1,26 @@
+[
+  {
+    "id": "bid-1",
+    "artworkId": "art-1",
+    "bidderId": "u-buyer-1",
+    "bidderName": "Hana Ibrahim",
+    "price": 350,
+    "timestamp": "2026-04-18T10:15:00.000Z"
+  },
+  {
+    "id": "bid-2",
+    "artworkId": "art-1",
+    "bidderId": "u-buyer-2",
+    "bidderName": "Karim Adel",
+    "price": 420,
+    "timestamp": "2026-04-18T10:40:00.000Z"
+  },
+  {
+    "id": "bid-3",
+    "artworkId": "art-2",
+    "bidderId": "u-buyer-2",
+    "bidderName": "Karim Adel",
+    "price": 410,
+    "timestamp": "2026-04-18T11:02:00.000Z"
+  }
+]

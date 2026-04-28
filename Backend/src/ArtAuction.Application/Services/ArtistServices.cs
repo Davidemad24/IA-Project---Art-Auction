@@ -28,6 +28,15 @@ public class ArtistServices : IArtistServices
         return _mapper.Map<ICollection<ArtistDto>>(artists);
     }
 
+    public async Task<ICollection<ArtistDto>> GetApprovedArtists()
+    {
+        // Get approved artist
+        var artists = await _artistRepo.GetApprovedArtists();
+        
+        // Return mapped DTO
+        return _mapper.Map<ICollection<ArtistDto>>(artists);
+    }
+
     public async Task<bool> ApproveArtist(int artistId, int adminId)
     {
         // Approve artist and return states

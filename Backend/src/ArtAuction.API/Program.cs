@@ -37,6 +37,19 @@ builder.Services.AddHangfire(config =>
 
 builder.Services.AddHangfireServer();
 
+// Add CORS services
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:5173") // Front end URL
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials(); // Required if you send cookies/auth headers
+        });
+});
+
 // Build app
 var app = builder.Build();
 
@@ -46,10 +59,11 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+app.UseRouting();
+app.UseCors("AllowReactApp");
+app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseHttpsRedirection();
-app.UseRouting();
 app.MapControllers();
 
 // SignalR Hub and Hangfire dashboard

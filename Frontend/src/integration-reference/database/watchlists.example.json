@@ -1,0 +1,10 @@
+[
+  {
+    "userId": "u-buyer-1",
+    "artworkIds": ["art-1", "art-2"]
+  },
+  {
+    "userId": "u-buyer-2",
+    "artworkIds": ["art-1"]
+  }
+]

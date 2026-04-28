@@ -8,7 +8,6 @@ namespace ArtAuction.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-[Authorize(Roles = "Buyer")]
 public class PostBidController : ControllerBase
 {
     // Attributes
@@ -18,6 +17,14 @@ public class PostBidController : ControllerBase
     public PostBidController(IPostBidServices postBidServices)
     {
         this._postBidServices = postBidServices;
+    }
+    
+    // Get post bids API
+    [HttpGet("GetAllPostBids")]
+    public async Task<IActionResult> GetAllPostBids([FromQuery] int artworkPostId)
+    {
+        // Return post bids
+        return Ok(await _postBidServices.GetAllPostBids(artworkPostId));
     }
     
     // Get buyer post bids
@@ -30,6 +37,7 @@ public class PostBidController : ControllerBase
     }
     
     // Create post bid API
+    [Authorize(Roles = "Buyer")]
     [HttpPost("CreatePostBid")]
     public async Task<IActionResult> CreatePostBid([FromBody] PostBidCreationDto postBidCreationDto)
     {
@@ -47,6 +55,7 @@ public class PostBidController : ControllerBase
     }
     
     // Delete post bid API
+    [Authorize(Roles = "Buyer")]
     [HttpDelete("DeletePostBid")]
     public async Task<IActionResult> DeletePostBid([FromQuery] int artworkPostId, [FromQuery] int buyerId)
     {

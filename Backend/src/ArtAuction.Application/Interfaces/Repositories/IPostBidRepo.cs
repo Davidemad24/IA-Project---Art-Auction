@@ -5,6 +5,7 @@ namespace ArtAuction.Application.Interfaces.Repositories;
 public interface IPostBidRepo
 {
     // Query methods
+    Task<List<PostBid>> GetAllPostBids(int arworkPostId);
     Task<PostBid?> GetTopBid(int artworkPostId);
     Task<ICollection<PostBid>> GetAllBuyerBids(int buyerId);
     

@@ -10,7 +10,7 @@ public class PostBidProfile : Profile
         CreateMap<Entities.PostBid, PostBidDto>()
             // Extract name from instance as dictionary
             .ForMember(postBidDto => postBidDto.BuyerName, opt 
-                => opt.MapFrom(postBid => postBid.Buyer != null && postBid.Buyer.UserName != null 
-                    ? postBid.Buyer.UserName : "Unknown Buyer"));
+                => opt.MapFrom(postBid => postBid.Buyer != null && postBid.Buyer.Name != null 
+                    ? postBid.Buyer.Name : "Unknown Buyer"));
     }
 }

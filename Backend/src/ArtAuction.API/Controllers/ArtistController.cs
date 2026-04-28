@@ -26,6 +26,13 @@ public class ArtistController : ControllerBase
         return Ok(await _artistServices.GetUnapprovedArtists());
     }
     
+    // Get number of artist approved API
+    [HttpGet("GetApprovedArtists")]
+    public async Task<IActionResult> GetApprovedArtists()
+    {
+        return Ok(await _artistServices.GetApprovedArtists());
+    }
+    
     // Approve artist API
     [HttpPatch("ApproveArtist")]
     public async Task<IActionResult> ApproveArtist([FromQuery] int artistId, [FromQuery] int adminId)

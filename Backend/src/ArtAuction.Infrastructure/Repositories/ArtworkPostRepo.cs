@@ -22,7 +22,9 @@ public class ArtworkPostRepo : IArtworkPostRepo
     public async Task<ICollection<ArtworkPost>> GetAllArtworkPosts()
     {
         return await _dbContext.ArtworkPosts.
-            Where(artworkPost => artworkPost.EndDate > DateTime.UtcNow)
+            Where(
+                artworkPost =>  artworkPost.EndDate > DateTime.UtcNow &&
+                artworkPost.AdminId != null)
             .Include(artworkPost => artworkPost.Artist)
             .Include(artworkPost => artworkPost.Category)
             .Include(artworkPost => artworkPost.PostTags)
@@ -33,7 +35,7 @@ public class ArtworkPostRepo : IArtworkPostRepo
     public async Task<ICollection<ArtworkPost>> GetAllArtworkPostsForArtist(int artistId)
     {
         return await _dbContext.ArtworkPosts.
-             Where(
+             Where( 
                 artworkPost => artworkPost.ArtistId == artistId &&
                 artworkPost.EndDate > DateTime.UtcNow
             ).Include(artworkPost => artworkPost.Category)
@@ -55,7 +57,7 @@ public class ArtworkPostRepo : IArtworkPostRepo
             .Include(artworkPost => artworkPost.PostTags)
             .ThenInclude(artworkPostTag => artworkPostTag.Tag)
             .AsNoTracking().FirstOrDefaultAsync(
-                artworkPost => artworkPost.Id == artworkPostId && artworkPost.AdminId == null
+                artworkPost => artworkPost.Id == artworkPostId
             );
     }
 

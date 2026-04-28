@@ -1,0 +1,23 @@
+[
+  {
+    "id": "note-1",
+    "userId": "u-buyer-1",
+    "title": "Auction reminder",
+    "message": "Dawn on Cairo ends in less than 12 hours.",
+    "timestamp": "2026-04-18T10:30:00.000Z",
+    "isRead": false,
+    "type": "info"
+  },
+  {
+    "id": "note-2",
+    "userId": "u-buyer-2",
+    "title": "Auction won",
+    "message": "You won \"Nile Moon Passage\" with a bid of $410.",
+    "timestamp": "2026-04-18T11:05:00.000Z",
+    "isRead": false,
+    "type": "payment_required",
+    "artworkId": "art-2",
+    "amount": 410,
+    "paymentStatus": "pending"
+  }
+]

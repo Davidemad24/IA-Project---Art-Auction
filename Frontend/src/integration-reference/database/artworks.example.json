@@ -1,0 +1,34 @@
+[
+  {
+    "id": "art-1",
+    "artistId": "u-artist-2",
+    "artistName": "Youssef Nader",
+    "title": "Dawn on Cairo",
+    "description": "Mixed media cityscape inspired by early-morning market movement.",
+    "initialPrice": 300,
+    "auctionStartTime": "2026-04-18T08:00:00.000Z",
+    "auctionEndTime": "2026-04-19T08:00:00.000Z",
+    "category": "Landscape",
+    "tags": ["city", "warm", "market"],
+    "imageUrl": "https://cdn.example.com/artworks/art-1.jpg",
+    "moderationStatus": "approved",
+    "currentBid": 420,
+    "buyNowPrice": null
+  },
+  {
+    "id": "art-2",
+    "artistId": "u-artist-3",
+    "artistName": "Salma Fouad",
+    "title": "Nile Moon Passage",
+    "description": "Atmospheric night-scene composition with layered brushwork.",
+    "initialPrice": 320,
+    "auctionStartTime": "2026-04-18T11:00:00.000Z",
+    "auctionEndTime": "2026-04-18T11:05:00.000Z",
+    "category": "Landscape",
+    "tags": ["night", "river", "moonlight"],
+    "imageUrl": "https://cdn.example.com/artworks/art-2.jpg",
+    "moderationStatus": "approved",
+    "currentBid": 410,
+    "buyNowPrice": null
+  }
+]

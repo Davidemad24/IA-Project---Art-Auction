@@ -1,0 +1,352 @@
+1) Artist APIs
+	1. GetUnapprovedArtists
+		- response: [
+			{
+				"Id"
+				"Name"
+				"Email"
+				"PhoneNumber"
+				"City"
+				"Country"
+			}, ...
+		]
+	2. GetApprovedArtists
+		- response: [
+			{
+				"Id"
+				"Name"
+				"Email"
+				"PhoneNumber"
+				"City"
+				"Country"
+			}, ...
+		]
+	3. ApproveArtist
+		- parameter:
+			- artistId
+			- adminId
+		- response: 
+			- boolean
+	4. RejectArtist
+		- parameter
+			- artistId
+		- response:
+			- boolean
+		
+2) ArtworkPost APIs
+	1. GetAllArtworkPosts
+		- response: [
+			{
+				"Id"
+				"Title"
+				"Description"
+				"InitialPrice"
+				"BuyNewPrice"
+				"StartDate"
+				"EndDate"
+				"Image"
+				"ArtistName"
+				"CategoryName"
+				"Tags" : String[]
+			}, ...
+		]
+	2. GetAllArtistPosts 
+		- parameter:
+			- artistId
+		- response: [
+			{
+				"Id"
+				"Title"
+				"Description"
+				"InitialPrice"
+				"BuyNewPrice"
+				"StartDate"
+				"EndDate"
+				"Image"
+				"CategoryName"
+				"AdminId"
+				"Tags" : String[]
+			}, ...
+		]
+	3. GetPostWithDetails
+		- parameter:
+			- artworkPostId
+		- response: {
+			"Id"
+			"Title"
+			"Description"
+			"InitialPrice"
+			"BuyNewPrice"
+			"StartDate"
+			"EndDate"
+			"Image"
+			"CategoryName"
+			"ArtistName"
+			"Tags" : String[]
+			"PostBid" : [
+				{
+					"BuyerName"
+					"BuyerPrice"
+				}, ...
+			]
+		}
+	4. GetUnapprovedArtworkPosts
+		- response: [
+			{
+				"Id"
+				"Title"
+				"Description"
+				"InitialPrice"
+				"BuyNewPrice"
+				"StartDate"
+				"EndDate"
+				"Image"
+				"ArtistName"
+				"CategoryName"
+				"Tags" : String[]
+			}, ...
+		]
+	5. CreateArtworkPost
+		- FormData: 
+			- {
+				"Title"
+				"Description"
+				"InitialPrice"
+				"StartDate"
+				"EndDate"
+				"Image"
+				"Category"
+				"ArtistId"
+				"TagIds[0]"
+					.
+					.
+				"TagIds[N]"
+			}
+		- response: boolean
+	6. UpdateArtworkPost
+		- FormData: 
+			- {
+				"Id"
+				"Title"
+				"Description"
+				"InitialPrice"
+				"StartDate"
+				"EndDate"
+				"Image"
+				"Category"
+				"ArtistId"
+				"TagIds[0]"
+					.
+					.
+				"TagIds[N]"
+			}
+		- response: boolean
+	7. DeleteArtworkPost
+		- parameter:
+			- artworkPostId
+		- response: boolean
+	8. ChangeEndDate
+		- parameter:
+			- artworkPostId
+			- endDate
+		- response: boolean
+	9. ApproveArtworkPost
+		- parameter:
+			- artworkPostId
+			- adminId
+		- response: boolean
+
+3) Authentication
+	1. BuyerRegistration
+		- request body: {
+			"FullName"
+			"Email"
+			"Password"
+			"City"
+			"Country"
+			"PhoneNumber"
+			"Address"
+		}
+		- response: {
+			"Id" 
+			"FullName"
+			"Email"
+			"Role"
+			"Token"
+			"RefreshToken"
+			"ExpiresOn"
+		}
+	2. ArtistRegistration
+		-request body: {
+			"FullName"
+			"Email"
+			"Password"
+			"City"
+			"Country"
+			"PhoneNumber"
+		}
+		- response: {
+			"Id" 
+			"FullName"
+			"Email"
+			"Role"
+			"Token"
+			"RefreshToken"
+			"ExpiresOn"
+		}
+	3. Login
+		- request body: {
+			"Email"
+			"Password"
+		}
+		- response: {
+			"Id" 
+			"FullName"
+			"Email"
+			"Role"
+			"Token"
+			"RefreshToken"
+			"ExpiresOn"
+			"AdminId"
+		}
+	4ز RefreshToken
+		- parameter: 
+			- refreshToken
+		- response: {
+			"Id" 
+			"FullName"
+			"Email"
+			"Role"
+			"Token"
+			"RefreshToken"
+			"ExpiresOn"
+			"AdminId"
+		}
+	5) logout
+		- request body: {
+			"refreshToken"
+		}
+		- response: "message"
+		
+4) Category
+	1. GetAllCategories
+		- response: {
+			"Id"
+			"Name"
+		}
+	
+5) PostBid
+	1. GetAllPostBids
+		- parameter: 
+			- artworkPostId
+		- response: [
+			{
+				"BuyerName"
+				"BuyerPrice"
+			}, ...
+		]
+	2. GetBuyerPostBids
+		- parameter:
+			- buyerId
+		- response: [
+			{
+				"ArtworkPostId"
+				"Title"
+				"BuyerPrice"
+			}, ...
+		]
+	3. CreatePostBid
+		- request body: {
+			"BuyerId"
+			"ArtworkPostId"
+			"BuyerPrice"
+		}
+		- response: boolean
+	4. DeletePostBid
+		- parameter:
+			- artworkPostId
+			- buyerId
+		- response: boolean
+
+6) PostSold
+	1. GetAllPostSold
+		- response: [
+			{
+				"ArtworkPost" : {
+					"Id"
+					"Title"
+					"Description"
+					"InitialPrice"
+					"BuyNewPrice"
+					"StartDate"
+					"EndDate"
+					"Image"
+					"ArtistName"
+					"CategoryName"
+					"Tags" : String[]
+				}
+				"BuyerName"
+				"FinalPrice"
+				"IsPaid"
+			}, ...
+		]
+	2. GetUnpaidPostForBuyer
+		- parameter:
+			- buyerId
+		- response: {
+			"ArtworkPostTitle"
+			"FinalPrice"
+		}
+	3. GetPostSoldForBuyer
+		- parameter:
+			- buyerId
+		- response: {
+			"Title"
+			"FinalPrice"
+			"IsPaid"
+		}
+	4. MarkAsPaid
+		- request body: {
+			"BuyerId"
+			"ArtworkPostId"
+		}
+		- response: boolean
+
+	
+7) Tags
+	1. GetAllTags
+		- response: {
+			"Id"
+			"Name"
+		}
+	
+8) WatchList
+	1. GetWatchListForBuyer
+		- parameter:
+			- buyerId
+		- response: [
+			{
+				"Id"
+				"Title"
+				"Description"
+				"InitialPrice"
+				"BuyNewPrice"
+				"StartDate"
+				"EndDate"
+				"Image"
+				"ArtistName"
+				"CategoryName"
+				"Tags" : String[]
+			}, ...
+		]
+	2. CreateWatchList
+		- request body: {
+			"BuyerId"
+			"ArtworkPostId"
+		}
+		- response: boolean
+	3. DeleteWatchList
+		- parameter: 
+			- buyerId
+			- artworkPostId
+		- response: boolean

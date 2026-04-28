@@ -38,6 +38,7 @@ public static class DependencyInjection
         services.AddScoped<IArtistRepo, ArtistRepo>();
         services.AddScoped<IBuyerRepo, BuyerRepo>();
         services.AddScoped<IRefreshTokenRepo, RefreshTokenRepo>();
+        services.AddScoped<IAuthenticationRepo, AuthenticationRepo>();
         services.AddScoped<ISaveChanges, SaveChanges>();
         
         // External service registration

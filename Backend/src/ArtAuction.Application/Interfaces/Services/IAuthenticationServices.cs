@@ -8,5 +8,5 @@ public interface IAuthenticationServices
     Task<AuthenticationDto> RegisterArtist(RegisterArtistDto dto);
     Task<AuthenticationDto> Login(LoginDto dto);
     Task<AuthenticationDto> RefreshToken(string token);
-    Task<bool> Logout(int userId);
+    Task<bool> Logout(string refreshToken);
 }

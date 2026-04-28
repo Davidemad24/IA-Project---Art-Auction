@@ -8,7 +8,7 @@ public class ArtworkPostCreationDto
     public string Title { get; set; }
     public string Description { get; set; } 
     public decimal InitialPrice { get; set; }
-    public decimal BuyNewPrice { get; set; }
+    public decimal? BuyNewPrice { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
     public IFormFile Image { get; set; }

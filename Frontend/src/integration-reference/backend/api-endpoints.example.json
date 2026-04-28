@@ -1,0 +1,48 @@
+{
+  "auth": {
+    "login": { "method": "POST", "path": "/api/auth/login" },
+    "registerBuyer": { "method": "POST", "path": "/api/auth/register/buyer" },
+    "registerArtist": { "method": "POST", "path": "/api/auth/register/artist" }
+  },
+  "artworks": {
+    "listPublic": { "method": "GET", "path": "/api/artworks" },
+    "getById": { "method": "GET", "path": "/api/artworks/{artworkId}" },
+    "getBidHistory": { "method": "GET", "path": "/api/artworks/{artworkId}/bids" }
+  },
+  "bids": {
+    "placeBid": { "method": "POST", "path": "/api/bids" },
+    "listMyBids": { "method": "GET", "path": "/api/bids/me" }
+  },
+  "watchlist": {
+    "list": { "method": "GET", "path": "/api/watchlist" },
+    "add": { "method": "POST", "path": "/api/watchlist/{artworkId}" },
+    "remove": { "method": "DELETE", "path": "/api/watchlist/{artworkId}" }
+  },
+  "artist": {
+    "listMyArtworks": { "method": "GET", "path": "/api/artist/artworks" },
+    "createArtwork": { "method": "POST", "path": "/api/artist/artworks" },
+    "updateArtwork": { "method": "PUT", "path": "/api/artist/artworks/{artworkId}" },
+    "deleteArtwork": { "method": "DELETE", "path": "/api/artist/artworks/{artworkId}" },
+    "extendAuction": { "method": "PATCH", "path": "/api/artist/artworks/{artworkId}/extend" }
+  },
+  "admin": {
+    "dashboardStats": { "method": "GET", "path": "/api/admin/dashboard" },
+    "pendingArtists": { "method": "GET", "path": "/api/admin/artists/pending" },
+    "reviewArtist": { "method": "PATCH", "path": "/api/admin/artists/{artistId}" },
+    "approvedArtists": { "method": "GET", "path": "/api/admin/artists/approved" },
+    "deleteApprovedArtist": { "method": "DELETE", "path": "/api/admin/artists/{artistId}" },
+    "pendingArtworks": { "method": "GET", "path": "/api/admin/artworks/pending" },
+    "reviewArtwork": { "method": "PATCH", "path": "/api/admin/artworks/{artworkId}" }
+  },
+  "notifications": {
+    "list": { "method": "GET", "path": "/api/notifications" },
+    "markRead": { "method": "PATCH", "path": "/api/notifications/{notificationId}/read" },
+    "listPurchases": { "method": "GET", "path": "/api/purchases" },
+    "completePayment": { "method": "POST", "path": "/api/purchases/complete" }
+  },
+  "signalR": {
+    "hubPath": "/hubs/auctions",
+    "events": ["BidPlaced", "AuctionExtended", "AuctionEnded", "WinnerNotified"],
+    "clientActions": ["JoinAuctionRoom(artworkId)", "LeaveAuctionRoom(artworkId)"]
+  }
+}

@@ -12,7 +12,7 @@ public class RegisterArtistProfile : Profile
             .ForMember(artist => artist.Name, opt =>
                 opt.MapFrom(registerBuyerDto => registerBuyerDto.FullName))
             .ForMember(artist => artist.UserName, opt =>
-                opt.MapFrom(registerArtistDto => registerArtistDto.Email))  
+                opt.MapFrom(registerArtistDto => registerArtistDto.Email))
 
             // Ignore navigation properties
             .ForMember(artist => artist.ArtworkPosts, opt =>

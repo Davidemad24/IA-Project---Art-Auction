@@ -16,15 +16,20 @@ public class AuthenticationServices : IAuthenticationServices
     private readonly IMapper _mapper;
     private readonly IJwtServices _jwtServices;
     private readonly IRefreshTokenRepo _refreshTokenRepo;
+    private readonly IArtistRepo _artistRepo;
+    private readonly IAuthenticationRepo _authenticationRepo;
     
     // Constructor
     public AuthenticationServices(UserManager<ApplicationUser> userManager, IMapper mapper, 
-        IJwtServices jwtServices, IRefreshTokenRepo refreshTokenRepo)
+        IJwtServices jwtServices, IRefreshTokenRepo refreshTokenRepo, IArtistRepo artistRepo,
+        IAuthenticationRepo authenticationRepo)
     {
         _userManager = userManager;
         _mapper = mapper;
         _jwtServices = jwtServices;
         _refreshTokenRepo = refreshTokenRepo;
+        _artistRepo = artistRepo;
+        _authenticationRepo = authenticationRepo;
     }
     
     // Methods
@@ -37,7 +42,6 @@ public class AuthenticationServices : IAuthenticationServices
         
         // Mapping DTO to entity
         var user = _mapper.Map<AppUser>(dto);
-        
         
         // Create user and check result
         var result = await _userManager.CreateAsync(user, password);
@@ -103,11 +107,18 @@ public class AuthenticationServices : IAuthenticationServices
         
         // Mapping data
         authenticationDto = _mapper.Map<AuthenticationDto>(user);
-        authenticationDto.Role = role.ToString();
+        authenticationDto.Role = role.FirstOrDefault();
         authenticationDto.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
         authenticationDto.ExpiresOn = jwtSecurityToken.ValidTo;
         authenticationDto.IsAuthenticated = true;
         authenticationDto.RefreshToken = refreshToken.Token;
+        
+        // Add admin ID if user artist
+        if (authenticationDto.Role == "Artist")
+        {
+            var artist = await _artistRepo.GetArtistById(user.Id);
+            authenticationDto.adminId = artist.AdminId;
+        }
         
         // Return token
         return authenticationDto;
@@ -145,16 +156,18 @@ public class AuthenticationServices : IAuthenticationServices
         authenticationDto.ExpiresOn = jwtToken.ValidTo;
         authenticationDto.RefreshToken = newRefreshToken.Token;
         authenticationDto.IsAuthenticated = true;
+        
+        // Add admin ID if user artist
+        if (authenticationDto.Role == "Artist")
+        {
+            var artist = await _artistRepo.GetArtistById(user.Id);
+            authenticationDto.adminId = artist.AdminId;
+        }
 
         // Return token
         return authenticationDto;
     }
 
-    public Task<bool> Logout(int userId)
-    {
-        throw new NotImplementedException();
-    }
-    
     private RefreshToken GenerateRefreshToken()
     {
         var randomBytes = new byte[64];
@@ -167,5 +180,15 @@ public class AuthenticationServices : IAuthenticationServices
             CreatedOn = DateTime.UtcNow,
             ExpiresOn = DateTime.UtcNow.AddDays(30)
         };
+    }
+    
+    public async Task<bool> Logout(string refreshToken)
+    {
+        // Check empty string
+        if (string.IsNullOrWhiteSpace(refreshToken))
+            return false;
+
+        // Revoke refresh token
+        return await _authenticationRepo.RevokeRefreshToken(refreshToken);
     }
 }

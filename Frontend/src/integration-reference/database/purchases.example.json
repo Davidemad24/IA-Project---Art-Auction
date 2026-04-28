@@ -1,0 +1,17 @@
+[
+  {
+    "id": "purchase-1",
+    "userId": "u-buyer-1",
+    "artworkId": "art-1",
+    "artworkTitle": "Dawn on Cairo",
+    "artistName": "Youssef Nader",
+    "imageUrl": "https://cdn.example.com/artworks/art-1.jpg",
+    "amount": 420,
+    "purchasedAt": "2026-04-18T12:10:00.000Z",
+    "paymentLast4": "1234",
+    "encryptedPaymentDetails": {
+      "cardNumberEncrypted": "<ciphertext>",
+      "cvvEncrypted": "<ciphertext>"
+    }
+  }
+]

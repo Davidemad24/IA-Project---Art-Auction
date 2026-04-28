@@ -24,7 +24,12 @@ public class ArtistRepo : IArtistRepo
         return await _dbContext.Artists.AsNoTracking().FirstOrDefaultAsync(a => a.Id == artistId);
     }
 
-    public async Task<List<Artist>> GetUnaprovedArtists()
+    public async Task<ICollection<Artist>> GetApprovedArtists()
+    {
+        return await _dbContext.Artists.Where(artist => artist.AdminId != null).AsNoTracking().ToListAsync();
+    }
+
+    public async Task<ICollection<Artist>> GetUnaprovedArtists()
     {
         return await _dbContext.Artists.Where(artist => artist.AdminId == null).AsNoTracking().ToListAsync();
     }

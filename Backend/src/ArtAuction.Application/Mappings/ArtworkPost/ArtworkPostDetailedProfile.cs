@@ -34,6 +34,6 @@ public class ArtworkPostDetailedProfile : Profile
             // Map artist name from navigation property
             .ForMember(artworkPostDetailedDto => artworkPostDetailedDto.ArtistName,
                 opt =>
-                    opt.MapFrom(artworkPost => artworkPost.Artist.UserName));
+                    opt.MapFrom(artworkPost => artworkPost.Artist.Name));
     }
 }

@@ -1,0 +1,32 @@
+[
+  {
+    "imageKey": "dawnOnCairo",
+    "localPath": "src/assets/artworks/photo-1547891654-e66ed7ebb968.jpg",
+    "recommendedStoragePath": "artworks/dawn-on-cairo.jpg"
+  },
+  {
+    "imageKey": "copperGeometry",
+    "localPath": "src/assets/artworks/photo-1579783902614-a3fb3927b6a5.jpg",
+    "recommendedStoragePath": "artworks/copper-geometry.jpg"
+  },
+  {
+    "imageKey": "stillnessInIndigo",
+    "localPath": "src/assets/artworks/photo-1473445361085-b9a07f55608b.jpg",
+    "recommendedStoragePath": "artworks/stillness-in-indigo.jpg"
+  },
+  {
+    "imageKey": "goldenAlleyEcho",
+    "localPath": "src/assets/artworks/photo-1460661419201-fd4cecdf8a8b.jpg",
+    "recommendedStoragePath": "artworks/golden-alley-echo.jpg"
+  },
+  {
+    "imageKey": "silentGeometryNo9",
+    "localPath": "src/assets/artworks/photo-1578301978693-85fa9c0320b9.jpg",
+    "recommendedStoragePath": "artworks/silent-geometry-no-9.jpg"
+  },
+  {
+    "imageKey": "nileMoonPassage",
+    "localPath": "src/assets/artworks/photo-1469474968028-56623f02e42e.jpg",
+    "recommendedStoragePath": "artworks/nile-moon-passage.jpg"
+  }
+]

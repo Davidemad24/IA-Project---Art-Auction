@@ -27,7 +27,7 @@ public class ArtworkPostController : ControllerBase
     }
 
     // Get artist posts API
-    [Authorize(Roles = "Artist")]
+    [Authorize(Roles = "Artist, Admin")]
     [HttpGet("GetAllArtistPosts")]
     public async Task<IActionResult> GetAllArtistPosts(int artistId)
     {

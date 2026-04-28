@@ -1,0 +1,26 @@
+[
+  {
+    "id": "u-admin-1",
+    "name": "System Admin",
+    "email": "admin@artauction.com",
+    "passwordHash": "<hashed-password>",
+    "role": "admin",
+    "status": "approved"
+  },
+  {
+    "id": "u-artist-2",
+    "name": "Youssef Nader",
+    "email": "youssef@artists.com",
+    "passwordHash": "<hashed-password>",
+    "role": "artist",
+    "status": "approved"
+  },
+  {
+    "id": "u-buyer-1",
+    "name": "Hana Ibrahim",
+    "email": "hana@buyers.com",
+    "passwordHash": "<hashed-password>",
+    "role": "buyer",
+    "status": "approved"
+  }
+]

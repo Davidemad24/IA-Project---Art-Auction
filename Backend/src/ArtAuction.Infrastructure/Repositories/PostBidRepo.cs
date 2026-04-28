@@ -19,6 +19,13 @@ public class PostBidRepo : IPostBidRepo
     }
 
     // Methods
+    public async Task<List<PostBid>> GetAllPostBids(int arworkPostId)
+    {
+        return await _dbContext.PostBids.Where(artworkPost => artworkPost.ArtworkPostId == arworkPostId)
+            .Include(artworkPost => artworkPost.Buyer)
+            .AsNoTracking().ToListAsync();
+    }
+
     public async Task<PostBid?> GetTopBid(int artworkPostId)
     {
         return await _dbContext.PostBids
@@ -50,6 +57,13 @@ public class PostBidRepo : IPostBidRepo
         
         // Add post bid
         await _dbContext.PostBids.AddAsync(postBid);
+        
+        // Update buy new price
+        var artworkPost = await _dbContext.ArtworkPosts.
+            FirstOrDefaultAsync(artworkPost => artworkPost.Id == postBid.ArtworkPostId);
+        artworkPost.BuyNewPrice = postBid.BuyerPrice + 10;
+        
+        // Save changes
         return await _saveChanges.Save();
     }
 

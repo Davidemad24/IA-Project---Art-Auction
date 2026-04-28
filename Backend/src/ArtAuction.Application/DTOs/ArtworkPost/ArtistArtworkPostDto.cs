@@ -14,5 +14,6 @@ public class ArtistArtworkPostDto
     public DateTime EndDate { get; set; }
     public string Image { get; set; }
     public string CategoryName { get; set; }
+    public int adminId { get; set; }
     public string[] Tags { get; set; }
 }

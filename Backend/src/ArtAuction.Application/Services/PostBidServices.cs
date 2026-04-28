@@ -20,6 +20,15 @@ public class PostBidServices : IPostBidServices
     }
     
     // Methods
+    public async Task<List<PostBidDto>> GetAllPostBids(int artworkPostId)
+    {
+        // Get post bids
+        var postBids = await _postBidRepo.GetAllPostBids(artworkPostId);
+        
+        // Return mapped DTO
+        return _mapper.Map<List<PostBidDto>>(postBids);
+    }
+
     public async Task<ICollection<BuyerPostBidDto>> GetAllBuyerBids(int buyerId)
     {
         // Get post bids
